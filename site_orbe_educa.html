@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orbe Educação — Soluções em Aprendizagem Corporativa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f0f0f;
+    --ink-soft: #3a3a3a;
+    --ink-muted: #7a7a7a;
+    --bg: #f5f2eb;
+    --bg-card: #edeae2;
+    --accent: #c84b2f;
+    --accent-light: #f0ddd8;
+    --white: #fdfcfa;
+    --border: rgba(15,15,15,0.12);
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.25rem 2.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 800; font-size: 1.3rem;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.875rem; font-weight: 500;
+    color: var(--ink-soft); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    background: var(--ink); color: var(--white);
+    padding: 0.6rem 1.4rem; border-radius: 100px;
+    font-size: 0.875rem; font-weight: 500;
+    text-decoration: none; transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    padding: 10rem 2.5rem 5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1280px; margin: 0 auto;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--accent-light); color: var(--accent);
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 0.4rem 0.9rem;
+    border-radius: 100px; margin-bottom: 1.5rem;
+  }
+  .hero-tag::before {
+    content: ''; width: 6px; height: 6px;
+    background: var(--accent); border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-weight: 800; line-height: 1.05;
+    letter-spacing: -0.03em; color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+  h1 em { font-style: normal; color: var(--accent); }
+  .hero-sub {
+    font-size: 1.1rem; color: var(--ink-soft);
+    line-height: 1.7; max-width: 480px;
+    margin-bottom: 2.5rem;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent); color: var(--white);
+    padding: 0.85rem 2rem; border-radius: 100px;
+    font-size: 0.9rem; font-weight: 500;
+    text-decoration: none; transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(200,75,47,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(200,75,47,0.4); }
+  .btn-secondary {
+    background: transparent; color: var(--ink);
+    padding: 0.85rem 2rem; border-radius: 100px;
+    font-size: 0.9rem; font-weight: 500;
+    text-decoration: none; border: 1px solid var(--border);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-secondary:hover { background: var(--bg-card); border-color: var(--ink-soft); }
+
+  .hero-visual {
+    position: relative; display: flex;
+    align-items: center; justify-content: center;
+  }
+  .hero-orb {
+    width: 420px; height: 420px; border-radius: 50%;
+    background: conic-gradient(from 180deg at 50% 50%, #c84b2f 0deg, #e8a090 90deg, #0f0f0f 180deg, #c84b2f 360deg);
+    opacity: 0.12;
+    animation: spin 20s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .hero-card-float {
+    position: absolute;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.2rem 1.5rem;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+  }
+  .hero-card-float.card-1 { top: 10%; right: 5%; min-width: 200px; }
+  .hero-card-float.card-2 { bottom: 15%; left: 0%; min-width: 180px; }
+  .float-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-muted); margin-bottom: 0.4rem; }
+  .float-number { font-family: var(--font-display); font-size: 2rem; font-weight: 800; color: var(--ink); }
+  .float-desc { font-size: 0.8rem; color: var(--ink-soft); margin-top: 0.2rem; }
+  .float-bar { margin-top: 0.8rem; height: 4px; background: var(--bg-card); border-radius: 2px; }
+  .float-bar-fill { height: 100%; width: 72%; background: var(--accent); border-radius: 2px; }
+
+  /* ── STATS ── */
+  .stats-strip {
+    background: var(--ink); color: var(--white);
+    padding: 2.5rem 2.5rem;
+  }
+  .stats-inner {
+    max-width: 1280px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+  .stat { text-align: center; }
+  .stat-n {
+    font-family: var(--font-display);
+    font-size: 2.5rem; font-weight: 800;
+    color: var(--white); letter-spacing: -0.03em;
+  }
+  .stat-n span { color: var(--accent); }
+  .stat-label { font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-top: 0.3rem; }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 6rem 2.5rem; }
+  .section-inner { max-width: 1280px; margin: 0 auto; }
+  .section-eyebrow {
+    font-size: 0.75rem; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--accent); margin-bottom: 0.75rem;
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 800; letter-spacing: -0.03em;
+    line-height: 1.1; color: var(--ink);
+    margin-bottom: 1rem;
+  }
+  .section-desc {
+    font-size: 1.05rem; color: var(--ink-soft);
+    max-width: 520px; line-height: 1.7;
+    margin-bottom: 3rem;
+  }
+
+  /* ── CURSOS ── */
+  #cursos { background: var(--white); }
+  .courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  .course-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 20px; padding: 2rem;
+    display: flex; flex-direction: column;
+    transition: transform 0.25s, box-shadow 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .course-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; background: var(--accent);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .course-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.1); }
+  .course-card:hover::before { transform: scaleX(1); }
+  .course-badge {
+    display: inline-block;
+    background: var(--accent-light); color: var(--accent);
+    font-size: 0.7rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 0.3rem 0.7rem; border-radius: 100px;
+    margin-bottom: 1.2rem; width: fit-content;
+  }
+  .course-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem; font-weight: 700;
+    letter-spacing: -0.02em; color: var(--ink);
+    margin-bottom: 0.75rem; line-height: 1.2;
+  }
+  .course-desc { font-size: 0.9rem; color: var(--ink-soft); line-height: 1.6; margin-bottom: 1.5rem; flex: 1; }
+  .course-meta {
+    display: flex; gap: 1rem; margin-bottom: 1.5rem;
+    font-size: 0.8rem; color: var(--ink-muted);
+  }
+  .course-meta span::before { content: ''; }
+  .course-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 1.25rem; border-top: 1px solid var(--border);
+  }
+  .course-price { font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; color: var(--ink); }
+  .course-price small { font-size: 0.8rem; font-weight: 400; color: var(--ink-muted); display: block; font-family: var(--font-body); }
+  .btn-course {
+    background: var(--ink); color: var(--white);
+    padding: 0.6rem 1.2rem; border-radius: 100px;
+    font-size: 0.8rem; font-weight: 500;
+    text-decoration: none; transition: background 0.2s;
+    border: none; cursor: pointer;
+  }
+  .btn-course:hover { background: var(--accent); }
+
+  /* ── POR QUE NÓS ── */
+  .why-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: center;
+  }
+  .why-items { display: flex; flex-direction: column; gap: 1.5rem; }
+  .why-item { display: flex; gap: 1.25rem; align-items: flex-start; }
+  .why-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: var(--accent-light); color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0; font-weight: 700;
+  }
+  .why-item-title { font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .why-item-desc { font-size: 0.9rem; color: var(--ink-soft); line-height: 1.6; }
+  .why-visual {
+    background: var(--ink); border-radius: 24px;
+    padding: 2.5rem; color: var(--white);
+    position: relative; overflow: hidden;
+  }
+  .why-visual-title { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; }
+  .progress-list { display: flex; flex-direction: column; gap: 1.2rem; }
+  .progress-item-label { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem; }
+  .progress-track { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; }
+  .progress-fill { height: 100%; border-radius: 3px; background: var(--accent); }
+  .why-badge {
+    position: absolute; bottom: 2rem; right: 2rem;
+    background: var(--accent); color: var(--white);
+    padding: 0.8rem 1.2rem; border-radius: 14px;
+    font-size: 0.8rem; font-weight: 500; text-align: center;
+  }
+
+  /* ── DEPOIMENTOS ── */
+  #depoimentos { background: var(--bg-card); }
+  .testimonials-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+  }
+  .testimonial {
+    background: var(--white); border-radius: 20px;
+    padding: 2rem; border: 1px solid var(--border);
+  }
+  .testimonial-text {
+    font-size: 0.95rem; color: var(--ink-soft);
+    line-height: 1.7; margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+  .testimonial-author { display: flex; align-items: center; gap: 0.75rem; }
+  .author-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--accent-light); color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-weight: 700; font-size: 0.85rem;
+  }
+  .author-name { font-weight: 500; font-size: 0.9rem; color: var(--ink); }
+  .author-role { font-size: 0.8rem; color: var(--ink-muted); }
+  .stars { color: var(--accent); font-size: 0.85rem; margin-bottom: 1rem; }
+
+  /* ── CTA ── */
+  #contato {
+    background: var(--ink); color: var(--white);
+    text-align: center;
+  }
+  #contato h2 { color: var(--white); }
+  #contato .section-desc { color: rgba(255,255,255,0.55); max-width: 480px; margin: 0 auto 2.5rem; }
+  .cta-form {
+    display: flex; gap: 1rem; max-width: 480px;
+    margin: 0 auto; flex-wrap: wrap; justify-content: center;
+  }
+  .cta-input {
+    flex: 1; min-width: 220px;
+    padding: 0.85rem 1.25rem; border-radius: 100px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.07); color: var(--white);
+    font-family: var(--font-body); font-size: 0.9rem;
+    outline: none; transition: border-color 0.2s;
+  }
+  .cta-input::placeholder { color: rgba(255,255,255,0.35); }
+  .cta-input:focus { border-color: var(--accent); }
+  .btn-cta {
+    background: var(--accent); color: var(--white);
+    padding: 0.85rem 1.8rem; border-radius: 100px;
+    font-size: 0.9rem; font-weight: 500;
+    border: none; cursor: pointer; font-family: var(--font-body);
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(200,75,47,0.4);
+  }
+  .btn-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(200,75,47,0.5); }
+  .cta-note { font-size: 0.8rem; color: rgba(255,255,255,0.3); margin-top: 1rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #080808; color: rgba(255,255,255,0.35);
+    padding: 2rem 2.5rem; text-align: center;
+    font-size: 0.8rem;
+  }
+  footer strong { color: rgba(255,255,255,0.7); font-family: var(--font-display); }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 8rem 1.5rem 4rem; gap: 2rem; }
+    .hero-visual { display: none; }
+    .stats-inner { grid-template-columns: repeat(2, 1fr); }
+    .why-grid { grid-template-columns: 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    section { padding: 4rem 1.5rem; }
+    h1 { font-size: 2.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Orbe<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#solucoes">Soluções</a></li>
+    <li><a href="#sobre">Nossa abordagem</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <a href="#contato" class="nav-cta">Fale conosco</a>
+</nav>
+
+<!-- HERO -->
+<section style="padding:0;">
+  <div class="hero">
+    <div class="hero-content fade-up">
+      <div class="hero-tag">Aprendizagem Corporativa</div>
+      <h1>Aprendizagem mais<br><em>estratégica.</em><br>Pessoas mais fortes.</h1>
+      <p class="hero-sub">A Orbe desenvolve soluções de aprendizagem corporativa conectadas à realidade do seu negócio — desde programas de treinamento até experiências digitais que geram impacto real nas equipes.</p>
+      <div class="hero-actions">
+        <a href="#solucoes" class="btn-primary">Conheça as soluções →</a>
+        <a href="#contato" class="btn-secondary">Fale com a gente</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-orb"></div>
+      <div class="hero-card-float card-1 fade-up" style="transition-delay:0.2s">
+        <div class="float-label">Nossa missão</div>
+        <div class="float-number" style="font-size:1.1rem;line-height:1.4">Aprendizagem<br>humana e estratégica</div>
+        <div class="float-desc" style="margin-top:0.6rem">conectada à realidade dos negócios</div>
+      </div>
+      <div class="hero-card-float card-2 fade-up" style="transition-delay:0.35s">
+        <div class="float-label">Soluções</div>
+        <div style="display:flex;flex-direction:column;gap:0.4rem;margin-top:0.3rem">
+          <span style="font-size:0.8rem;color:var(--ink)">→ Cursos corporativos</span>
+          <span style="font-size:0.8rem;color:var(--ink)">→ Experiências digitais</span>
+          <span style="font-size:0.8rem;color:var(--ink)">→ Design instrucional</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- nav links update -->
+
+
+<!-- SOLUÇÕES -->
+<section id="solucoes">
+  <div class="section-inner">
+    <p class="section-eyebrow">O que oferecemos</p>
+    <h2>Soluções para cada<br>desafio de aprendizagem</h2>
+    <p class="section-desc">Desenvolvemos programas sob medida para o momento e a cultura da sua organização — com método, cuidado e foco em resultados que aparecem no negócio.</p>
+    <div class="courses-grid">
+      <div class="course-card fade-up">
+        <span class="course-badge">Liderança</span>
+        <div class="course-title">Programas de Liderança</div>
+        <p class="course-desc">Formação de líderes que inspiram, decidem com clareza e constroem culturas de alta performance sustentável — do líder emergente ao gestor sênior.</p>
+        <div class="course-meta">
+          <span>⏱ Presencial ou EAD</span>
+          <span>👥 Turmas fechadas</span>
+        </div>
+        <div class="course-footer" style="justify-content:flex-end">
+          <a href="#contato" class="btn-course">Solicitar proposta</a>
+        </div>
+      </div>
+
+      <div class="course-card fade-up" style="transition-delay:0.1s">
+        <span class="course-badge">Comunicação</span>
+        <div class="course-title">Comunicação e Feedback</div>
+        <p class="course-desc">Conversas difíceis com clareza, empatia e resultado. Para times que precisam melhorar a qualidade das trocas e a cultura de feedback contínuo.</p>
+        <div class="course-meta">
+          <span>⏱ Presencial ou EAD</span>
+          <span>👥 Turmas fechadas</span>
+        </div>
+        <div class="course-footer" style="justify-content:flex-end">
+          <a href="#contato" class="btn-course">Solicitar proposta</a>
+        </div>
+      </div>
+
+      <div class="course-card fade-up" style="transition-delay:0.2s">
+        <span class="course-badge">Gestão</span>
+        <div class="course-title">Gestão e Execução de Projetos</div>
+        <p class="course-desc">Do planejamento à entrega: metodologias ágeis e tradicionais aplicadas ao contexto real da equipe, com previsibilidade e menos retrabalho.</p>
+        <div class="course-meta">
+          <span>⏱ Presencial ou EAD</span>
+          <span>👥 Turmas fechadas</span>
+        </div>
+        <div class="course-footer" style="justify-content:flex-end">
+          <a href="#contato" class="btn-course">Solicitar proposta</a>
+        </div>
+      </div>
+
+      <div class="course-card fade-up">
+        <span class="course-badge">Cultura</span>
+        <div class="course-title">Cultura, Diversidade e Inclusão</div>
+        <p class="course-desc">Sensibilização e práticas concretas para construir ambientes onde todas as pessoas se sentem pertencentes e performam melhor.</p>
+        <div class="course-meta">
+          <span>⏱ Presencial ou EAD</span>
+          <span>👥 Formato aberto</span>
+        </div>
+        <div class="course-footer" style="justify-content:flex-end">
+          <a href="#contato" class="btn-course">Solicitar proposta</a>
+        </div>
+      </div>
+
+      <div class="course-card fade-up" style="transition-delay:0.1s">
+        <span class="course-badge">Digital</span>
+        <div class="course-title">Experiências Digitais de Aprendizagem</div>
+        <p class="course-desc">Trilhas de e-learning, microlearning e conteúdos interativos desenvolvidos com design instrucional estratégico para a sua plataforma ou LMS.</p>
+        <div class="course-meta">
+          <span>⏱ Assíncrono</span>
+          <span>👥 Escala ilimitada</span>
+        </div>
+        <div class="course-footer" style="justify-content:flex-end">
+          <a href="#contato" class="btn-course">Solicitar proposta</a>
+        </div>
+      </div>
+
+      <div class="course-card fade-up" style="transition-delay:0.2s; background: var(--ink); color: var(--white); border-color: transparent;">
+        <span class="course-badge" style="background:rgba(200,75,47,0.2);color:#f0a090;">Sob medida</span>
+        <div class="course-title" style="color:var(--white);">Projeto Customizado</div>
+        <p class="course-desc" style="color:rgba(255,255,255,0.55);">Diagnóstico, design instrucional e solução desenvolvidos do zero para o desafio específico da sua organização. Começamos entendendo o seu contexto.</p>
+        <div class="course-meta" style="color:rgba(255,255,255,0.35);">
+          <span>⏱ Definido juntos</span>
+          <span>👥 Qualquer escala</span>
+        </div>
+        <div class="course-footer" style="border-color:rgba(255,255,255,0.1);justify-content:flex-end">
+          <a href="#contato" class="btn-course" style="background:var(--accent)">Vamos conversar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NOSSA ABORDAGEM -->
+<section id="sobre">
+  <div class="section-inner">
+    <div class="why-grid">
+      <div>
+        <p class="section-eyebrow">Nossa abordagem</p>
+        <h2>Aprendizagem que<br>serve ao negócio</h2>
+        <p class="section-desc">Não entregamos conteúdo pronto. Entendemos o seu contexto, desenhamos a solução certa e acompanhamos o impacto junto com você.</p>
+        <div class="why-items">
+          <div class="why-item fade-up">
+            <div class="why-icon">01</div>
+            <div>
+              <div class="why-item-title">Diagnóstico antes de tudo</div>
+              <p class="why-item-desc">Cada projeto começa com escuta. Entendemos os desafios reais da organização antes de propor qualquer solução de aprendizagem.</p>
+            </div>
+          </div>
+          <div class="why-item fade-up" style="transition-delay:0.1s">
+            <div class="why-icon">02</div>
+            <div>
+              <div class="why-item-title">Design instrucional estratégico</div>
+              <p class="why-item-desc">Combinamos ciência da aprendizagem com as melhores práticas de design para criar experiências que retêm e transferem conhecimento.</p>
+            </div>
+          </div>
+          <div class="why-item fade-up" style="transition-delay:0.2s">
+            <div class="why-icon">03</div>
+            <div>
+              <div class="why-item-title">Humana e conectada à realidade</div>
+              <p class="why-item-desc">Acreditamos que aprendizagem corporativa precisa respeitar quem aprende — com contexto, significado e aplicação prática imediata.</p>
+            </div>
+          </div>
+          <div class="why-item fade-up" style="transition-delay:0.3s">
+            <div class="why-icon">04</div>
+            <div>
+              <div class="why-item-title">Parceria de longo prazo</div>
+              <p class="why-item-desc">Nosso objetivo não é entregar um projeto e sair. Queremos ser parceiros estratégicos do desenvolvimento de pessoas na sua empresa.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="why-visual fade-up">
+        <div class="why-visual-title">O que acreditamos<br>sobre aprendizagem</div>
+        <div style="display:flex;flex-direction:column;gap:1.5rem;margin-top:1rem">
+          <div style="padding:1.2rem;background:rgba(255,255,255,0.07);border-radius:12px;border:1px solid rgba(255,255,255,0.1)">
+            <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.4);margin-bottom:0.5rem">Propósito</div>
+            <p style="font-size:0.9rem;color:rgba(255,255,255,0.85);line-height:1.6">"Transformar a aprendizagem dentro das empresas, tornando-a mais estratégica, humana e conectada com a realidade dos negócios."</p>
+          </div>
+          <div style="padding:1.2rem;background:rgba(255,255,255,0.07);border-radius:12px;border:1px solid rgba(255,255,255,0.1)">
+            <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.4);margin-bottom:0.5rem">Como atuamos</div>
+            <div style="display:flex;flex-direction:column;gap:0.5rem">
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;color:rgba(255,255,255,0.7)"><span style="color:var(--accent);font-weight:700">→</span> Cursos e programas corporativos</div>
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;color:rgba(255,255,255,0.7)"><span style="color:var(--accent);font-weight:700">→</span> Experiências digitais de aprendizagem</div>
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;color:rgba(255,255,255,0.7)"><span style="color:var(--accent);font-weight:700">→</span> Consultoria em L&D e design instrucional</div>
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;color:rgba(255,255,255,0.7)"><span style="color:var(--accent);font-weight:700">→</span> Desenvolvimento de pessoas e equipes</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- CTA -->
+<section id="contato">
+  <div class="section-inner" style="text-align:center;">
+    <p class="section-eyebrow" style="color:var(--accent)">Vamos conversar</p>
+    <h2>Qual é o desafio de<br>aprendizagem da sua empresa?</h2>
+    <p class="section-desc">Conta pra gente. Vamos entender o seu contexto e apresentar uma proposta que faça sentido para o momento da sua organização.</p>
+    <div class="cta-form">
+      <input type="email" class="cta-input" placeholder="seu@empresa.com.br">
+      <button class="btn-cta">Quero conversar</button>
+    </div>
+    <p class="cta-note">Sem spam. Retorno em até 1 dia útil.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>Orbe Educação</strong> — Soluções em Aprendizagem Corporativa</p>
+  <p style="margin-top:0.5rem;">© 2025 Orbe Educação. Todos os direitos reservados.</p>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
