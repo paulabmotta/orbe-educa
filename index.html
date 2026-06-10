@@ -9,6 +9,15 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  /* Correção global definitiva para corte de descendentes (g, j, p, q, y) na fonte Syne.
+     border-radius em containers cria stacking context que recorta texto em alguns navegadores.
+     A solução é garantir que nenhum container pai corte o conteúdo de texto. */
+  * { overflow-wrap: break-word; }
+
+  [class*="card"], [class*="banner"], [class*="visual"], section, nav, footer {
+    overflow: visible !important;
+  }
+
   :root {
     --ink: #1a1f2e;
     --ink-soft: #3a4055;
@@ -24,6 +33,18 @@
   }
 
   html { scroll-behavior: smooth; }
+
+  /* Correção de descendentes cortadas na fonte Syne */
+  h1, h2, h3,
+  .course-title,
+  .nr01-title,
+  .why-item-title,
+  .why-visual-title {
+    overflow: visible;
+    line-height: 1.6;
+    padding-bottom: 0.3rem;
+    display: block;
+  }
 
   body {
     background: var(--bg);
@@ -125,8 +146,9 @@
   h1 {
     font-family: var(--font-display);
     font-size: clamp(2rem, 4.5vw, 4rem);
-    font-weight: 800; line-height: 1.08;
+    font-weight: 800; line-height: 1.2;
     letter-spacing: -0.025em; color: var(--ink); margin-bottom: 1.25rem;
+    overflow: visible;
   }
   h1 em { font-style: normal; color: var(--accent); }
   .hero-sub {
@@ -181,7 +203,8 @@
     font-family: var(--font-display);
     font-size: clamp(1.7rem, 3vw, 2.6rem);
     font-weight: 800; letter-spacing: -0.025em;
-    line-height: 1.1; color: var(--ink); margin-bottom: 0.85rem;
+    line-height: 1.5; color: var(--ink); margin-bottom: 0.9rem;
+    overflow: visible; padding-bottom: 0.25rem;
   }
   .section-desc {
     font-size: 0.975rem; color: var(--ink-soft);
@@ -192,9 +215,9 @@
   .nr01-banner {
     background: var(--ink); border-radius: 20px; padding: 2.5rem;
     margin-bottom: 1.5rem;
-    display: grid; grid-template-columns: 1fr auto;
+    display: grid; grid-template-columns: 1fr;
     gap: 2rem; align-items: center;
-    position: relative; overflow: hidden;
+    position: relative;
   }
   .nr01-banner::before {
     content: ''; position: absolute; top: 0; left: 0; right: 0;
@@ -215,7 +238,8 @@
     font-family: var(--font-display);
     font-size: clamp(1.2rem, 2.5vw, 1.8rem);
     font-weight: 800; letter-spacing: -0.02em;
-    color: var(--white); margin-bottom: 0.75rem; line-height: 1.2;
+    color: var(--white); margin-bottom: 0.9rem; line-height: 1.5;
+    padding-bottom: 0.25rem; overflow: visible;
   }
   .nr01-desc { font-size: 0.875rem; color: rgba(255,255,255,0.6); line-height: 1.65; max-width: 560px; }
   .nr01-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.1rem; }
@@ -245,11 +269,11 @@
     border-radius: 18px; padding: 1.75rem;
     display: flex; flex-direction: column;
     transition: transform 0.25s, box-shadow 0.25s;
-    position: relative; overflow: hidden;
+    position: relative;
   }
   .course-card::before {
     content: ''; position: absolute; top: 0; left: 0; right: 0;
-    height: 3px; background: var(--accent);
+    height: 3px; background: var(--accent); border-radius: 18px 18px 0 0;
     transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
   }
   .course-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.09); }
@@ -257,14 +281,15 @@
   .course-badge {
     display: inline-block; background: var(--accent-light); color: var(--accent);
     font-size: 0.68rem; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.06em; padding: 0.28rem 0.65rem; border-radius: 100px;
-    margin-bottom: 1rem; width: fit-content;
+    letter-spacing: 0.06em; padding: 0.35rem 0.65rem; border-radius: 100px;
+    margin-bottom: 1rem; width: fit-content; line-height: 1.4;
   }
   .course-title {
     font-family: var(--font-display); font-size: 1.1rem; font-weight: 700;
-    letter-spacing: -0.02em; color: var(--ink); margin-bottom: 0.65rem; line-height: 1.25;
+    letter-spacing: -0.02em; color: var(--ink); margin-bottom: 0.75rem;
+    line-height: 1.5; overflow: visible; padding-bottom: 0.2rem;
   }
-  .course-desc { font-size: 0.875rem; color: var(--ink-soft); line-height: 1.6; margin-bottom: 1.25rem; flex: 1; }
+  .course-desc { font-size: 0.875rem; color: var(--ink-soft); line-height: 1.65; margin-bottom: 1.25rem; flex: 1; overflow: visible; }
   .course-meta { display: flex; gap: 0.75rem; margin-bottom: 1.25rem; font-size: 0.775rem; color: var(--ink-muted); flex-wrap: wrap; }
   .course-footer {
     display: flex; align-items: center; justify-content: flex-end;
@@ -288,10 +313,10 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 0.85rem; flex-shrink: 0; font-weight: 700;
   }
-  .why-item-title { font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; margin-bottom: 0.25rem; }
+  .why-item-title { font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; margin-bottom: 0.35rem; line-height: 1.5; padding-bottom: 0.2rem; overflow: visible; }
   .why-item-desc { font-size: 0.875rem; color: var(--ink-soft); line-height: 1.6; }
-  .why-visual { background: var(--ink); border-radius: 20px; padding: 2.25rem; color: var(--white); }
-  .why-visual-title { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; margin-bottom: 1.35rem; line-height: 1.2; }
+  .why-visual { background: var(--ink); border-radius: 20px; padding: 2.25rem; color: var(--white); overflow: visible; }
+  .why-visual-title { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; margin-bottom: 1.35rem; line-height: 1.5; padding-bottom: 0.2rem; overflow: visible; }
 
   /* ── CTA ── */
   #contato { background: var(--ink); color: var(--white); text-align: center; }
@@ -358,6 +383,8 @@
     .hero-actions { flex-direction: column; }
     .btn-primary, .btn-secondary { text-align: center; width: 100%; }
     section { padding: 3rem 1rem; }
+    #ebook .section-inner > div { grid-template-columns: 1fr !important; }
+    #ebook > div > div { padding: 3rem 1rem; }
     .courses-grid { grid-template-columns: 1fr; gap: 1rem; }
     .course-card { padding: 1.4rem; }
     .nr01-banner { padding: 1.75rem; }
@@ -401,7 +428,7 @@
       <h1>Desenvolvendo pessoas.<br><em>Transformando resultados.</em></h1>
       <p class="hero-sub">A Orbe desenvolve soluções de aprendizagem corporativa conectadas à realidade do seu negócio. Desde programas de treinamento até experiências digitais que geram impacto real nas equipes.</p>
       <div class="hero-actions">
-        <a href="#solucoes" class="btn-primary">Conheça as soluções →</a>
+        <a href="#solucoes" class="btn-primary">Conheça as soluções</a>
         <a href="#contato" class="btn-secondary">Fale com a gente</a>
       </div>
     </div>
@@ -443,8 +470,20 @@
           <span class="nr01-tag">Adequação legal</span>
           <span class="nr01-tag">Para todos os setores</span>
         </div>
+        <a href="#contato" class="nr01-cta" style="margin-top:1.5rem;display:inline-block;">Solicitar proposta</a>
+
+        <!-- E-BOOK -->
+        <div style="margin-top:1.75rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.1);">
+          <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.35);margin-bottom:0.75rem;">Comece por aqui</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <div style="width:36px;height:36px;border-radius:8px;background:rgba(200,75,47,0.25);border:1px solid rgba(200,75,47,0.4);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">📖</div>
+              <div style="font-size:0.875rem;color:rgba(255,255,255,0.7);line-height:1.4;">NR-1 na Prática — O Passo a Passo<br>para Pequenas Empresas se Adequarem à Nova NR-1</div>
+            </div>
+            <a href="#" id="hotmart-link" style="display:inline-flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.85);font-size:0.75rem;font-weight:600;padding:0.5rem 1.1rem;border-radius:100px;text-decoration:none;white-space:nowrap;transition:background 0.2s;text-transform:uppercase;letter-spacing:0.06em;" onmouseover="this.style.background='rgba(200,75,47,0.35)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">ADQUIRIR E-BOOK</a>
+          </div>
+        </div>
       </div>
-      <a href="#contato" class="nr01-cta">Solicitar proposta</a>
     </div>
 
     <!-- DEMAIS CARDS -->
