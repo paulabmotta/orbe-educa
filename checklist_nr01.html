@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist NR-01 — Orbe Educação</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:#f5f0e8;color:#1a1f2e;min-height:100vh}
+
+  /* HEADER */
+  header{background:#1a1f2e;padding:20px 24px 16px;border-bottom:3px solid #c84b2f}
+  .logo{font-size:20px;font-weight:700;color:#fff;letter-spacing:-0.3px}
+  .logo span{color:#c84b2f}
+  .tagline{font-size:11px;color:#8896aa;margin-top:2px}
+
+  /* HERO */
+  .hero{background:#1a1f2e;padding:32px 24px 40px;text-align:center}
+  .badge{display:inline-block;background:#c84b2f;color:#fff;font-size:11px;font-weight:600;padding:4px 14px;border-radius:20px;margin-bottom:14px;letter-spacing:.5px;text-transform:uppercase}
+  .hero h1{font-size:28px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:10px}
+  .hero p{font-size:14px;color:#8896aa;max-width:480px;margin:0 auto 24px;line-height:1.6}
+
+  /* FORMULÁRIO DE CAPTURA */
+  #capture-form{background:#fff;border-radius:12px;padding:24px;max-width:420px;margin:0 auto;box-shadow:0 4px 24px rgba(0,0,0,.15)}
+  #capture-form h2{font-size:15px;font-weight:600;color:#1a1f2e;margin-bottom:6px}
+  #capture-form p{font-size:12px;color:#666;margin-bottom:16px;line-height:1.5}
+  .field{margin-bottom:12px}
+  .field label{display:block;font-size:12px;font-weight:600;color:#1a1f2e;margin-bottom:4px}
+  .field input{width:100%;padding:10px 14px;border:1.5px solid #e8e4dc;border-radius:8px;font-size:14px;color:#1a1f2e;background:#faf8f4;outline:none;transition:border-color .2s}
+  .field input:focus{border-color:#1a1f2e}
+  .btn-primary{width:100%;background:#c84b2f;color:#fff;border:none;padding:12px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s}
+  .btn-primary:hover{background:#a83d26}
+  .privacy{font-size:10px;color:#999;text-align:center;margin-top:10px}
+
+  /* CHECKLIST */
+  #checklist-section{display:none;padding:24px 16px 40px;max-width:640px;margin:0 auto}
+  .intro-box{background:#fff;border-radius:10px;padding:16px 20px;margin-bottom:20px;border-left:4px solid #c84b2f;font-size:13px;color:#444;line-height:1.6}
+  .intro-box strong{color:#1a1f2e}
+
+  .section-title{font-size:13px;font-weight:700;color:#fff;background:#1a1f2e;padding:10px 16px;border-radius:8px 8px 0 0;margin-bottom:0}
+  .section-items{background:#fff;border-radius:0 0 8px 8px;margin-bottom:16px;overflow:hidden;border:1px solid #e8e4dc;border-top:none}
+  .item{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;border-bottom:1px solid #f0ece4;cursor:pointer;transition:background .15s}
+  .item:last-child{border-bottom:none}
+  .item:hover{background:#faf8f4}
+  .item.checked{background:#f0faf5}
+  .checkbox{width:22px;height:22px;min-width:22px;border:2px solid #c84b2f;border-radius:5px;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px}
+  .item.checked .checkbox{background:#2e7d5e;border-color:#2e7d5e}
+  .check-icon{display:none;color:#fff;font-size:14px;font-weight:700}
+  .item.checked .check-icon{display:block}
+  .item-content{}
+  .item-text{font-size:13px;font-weight:600;color:#1a1f2e;line-height:1.4;margin-bottom:3px}
+  .item.checked .item-text{color:#2e7d5e}
+  .item-hint{font-size:11px;color:#888;line-height:1.4}
+
+  /* PROGRESSO */
+  .progress-bar-wrap{background:#fff;border-radius:10px;padding:16px 20px;margin-bottom:20px;border:1px solid #e8e4dc}
+  .progress-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .progress-label{font-size:13px;font-weight:600;color:#1a1f2e}
+  .progress-count{font-size:13px;color:#666}
+  .bar-bg{background:#f0ece4;border-radius:20px;height:8px;overflow:hidden}
+  .bar-fill{background:#2e7d5e;height:8px;border-radius:20px;transition:width .4s ease;width:0%}
+
+  /* RESULTADO */
+  .result-box{display:none;background:#fff;border-radius:10px;padding:20px;margin-top:16px;text-align:center;border:2px solid #c84b2f}
+  .result-box.show{display:block}
+  .result-box h3{font-size:16px;font-weight:700;color:#1a1f2e;margin-bottom:8px}
+  .result-box p{font-size:13px;color:#555;line-height:1.6;margin-bottom:16px}
+  .btn-cta{display:inline-block;background:#c84b2f;color:#fff;padding:12px 28px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;margin:4px}
+  .btn-secondary{display:inline-block;background:#1a1f2e;color:#fff;padding:12px 28px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;margin:4px}
+
+  /* FOOTER */
+  footer{background:#1a1f2e;border-top:2px solid #c84b2f;padding:16px 24px;text-align:center}
+  footer p{font-size:11px;color:#8896aa}
+  footer strong{color:#fff}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Orbe<span>.</span>Educação</div>
+  <div class="tagline">Aprendizagem mais estratégica.</div>
+</header>
+
+<div class="hero">
+  <div class="badge">Gratuito</div>
+  <h1>Checklist NR-01<br>Saúde Mental no Trabalho</h1>
+  <p>Verifique se sua empresa está em conformidade com a Portaria MTE nº 1.419/2024 e descubra o que ainda precisa ser feito.</p>
+
+  <div id="capture-form">
+    <h2>Acesse o checklist gratuito</h2>
+    <p>Preencha seus dados para acessar o checklist completo e receber dicas sobre conformidade com a NR-01.</p>
+    <div class="field">
+      <label>Seu nome</label>
+      <input type="text" id="nome" placeholder="Nome completo" />
+    </div>
+    <div class="field">
+      <label>E-mail profissional</label>
+      <input type="email" id="email" placeholder="seu@empresa.com.br" />
+    </div>
+    <div class="field">
+      <label>Empresa</label>
+      <input type="text" id="empresa" placeholder="Nome da empresa" />
+    </div>
+    <button class="btn-primary" onclick="acessarChecklist()">Acessar o checklist grátis →</button>
+    <p class="privacy">Seus dados não serão compartilhados. Sem spam.</p>
+  </div>
+</div>
+
+<div id="checklist-section">
+
+  <div class="intro-box">
+    <strong>Como usar:</strong> Marque cada item que sua empresa já realiza. Ao final, você verá seu percentual de conformidade e receberá orientações sobre os próximos passos.
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-header">
+      <span class="progress-label">Seu progresso</span>
+      <span class="progress-count"><span id="count">0</span> de 12 itens</span>
+    </div>
+    <div class="bar-bg"><div class="bar-fill" id="bar"></div></div>
+  </div>
+
+  <div class="section-title">1. Documentação e Gestão</div>
+  <div class="section-items">
+    <div class="item" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="item-content">
+        <div class="item-text">Incluiu os riscos psicossociais no PGR</div>
+        <div class="item-hint">Obrigação desde mai/2025 — sem isso a empresa está irregular.</div>
+      </div>
+    </div>
+    <div class="item" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="item-content">
+        <div class="item-text">Atualizou o PCMSO considerando saúde mental</div>
+        <div class="item-hint">O PCMSO deve refletir os riscos psicossociais identificados.</div>
+      </div>
+    </div>
+    <div class="item" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="item-content">
+        <div class="item-text">Possui registros documentados das ações de prevenção</div>
+        <div class="item-hint">Documentação é essencial para auditoria do Ministério do Trabalho.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">2. Identificação de Riscos</div>
+  <div class="section-items">
+    <div class="item" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="item-content">
+        <div class="item-text">Mapeou fatores de risco psicossocial na operação</div>
+        <div class="item-hint">Ex: sobrecarga, pressão por metas, assédio, falta de autonomia.</div>
+      </div>
+    </div>
+    <div class="item" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="item-content">
+        <div class="item-text">Realizou avaliação participativa com os colaboradores</div>
+        <div class="item-hint">A NR-01 exige envolvimento dos trabalhadores no processo.</div>
+      </div>
+    </div>
+    <div class="item" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="item-content">
+        <div class="item-text">Identificou grupos mais expostos e priorizou ações</div>
+        <div class="item-hint">Líderes, atendimento e operações intensas têm maior risco.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">3. Capacitação dos Colaboradores</div>
+  <div class="section-items">
+    <div class="item" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="item-content">
+        <div class="item-text">Realizou treinamento sobre saúde mental e riscos psicossociais</div>
+        <div class="item-hint">Capacitação obrigatória e documentada para todos os colaboradores.</div>
+      </div>
+    </div>
+    <div class="item" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="item-content">
+        <div class="item-text">Emitiu certificados individuais de participação</div>
+        <div class="item-hint">Certificados comprovam o treinamento em caso de fiscalização.</div>
+      </div>
+    </div>
+    <div class="item" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="item-content">
+        <div class="item-text">Incluiu gestores e lideranças na capacitação</div>
+        <div class="item-hint">Líderes são multiplicadores e têm papel chave na prevenção.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">4. Ambiente e Cultura</div>
+  <div class="section-items">
+    <div class="item" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="item-content">
+        <div class="item-text">Possui canal de escuta ativo para relatos de sofrimento mental</div>
+        <div class="item-hint">Canal pode ser e-mail, formulário anônimo ou ouvidoria.</div>
+      </div>
+    </div>
+    <div class="item" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="item-content">
+        <div class="item-text">Comunica periodicamente sobre saúde mental na empresa</div>
+        <div class="item-hint">Campanhas internas reforçam a cultura de cuidado.</div>
+      </div>
+    </div>
+    <div class="item" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="item-content">
+        <div class="item-text">Avalia o clima organizacional com foco em bem-estar</div>
+        <div class="item-hint">Pesquisas de clima identificam riscos antes que virem problemas.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="result-box" id="result-box">
+    <h3 id="result-title"></h3>
+    <p id="result-text"></p>
+    <a href="https://paulabmotta.github.io/orbe-educa" class="btn-cta">Conhecer o curso completo →</a>
+    <a href="https://go.hotmart.com/E106205952R" class="btn-secondary">Baixar o e-book NR-01</a>
+  </div>
+
+</div>
+
+<footer>
+  <p><strong>Orbe Educação</strong> — contato@orbeeducacao.com.br | (27) 99610-7881 | orbeeducacao.com.br</p>
+  <p style="margin-top:6px">© 2026 Orbe Educação. Material gratuito para fins educativos.</p>
+</footer>
+
+<script>
+let total = 0;
+
+function acessarChecklist() {
+  const nome = document.getElementById('nome').value.trim();
+  const email = document.getElementById('email').value.trim();
+  if (!nome || !email) { alert('Por favor, preencha nome e e-mail para continuar.'); return; }
+  document.querySelector('.hero').style.display = 'none';
+  document.getElementById('checklist-section').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+function toggle(el) {
+  el.classList.toggle('checked');
+  total = document.querySelectorAll('.item.checked').length;
+  document.getElementById('count').textContent = total;
+  document.getElementById('bar').style.width = (total / 12 * 100) + '%';
+  avaliar();
+}
+
+function avaliar() {
+  const box = document.getElementById('result-box');
+  const title = document.getElementById('result-title');
+  const text = document.getElementById('result-text');
+  const pct = Math.round(total / 12 * 100);
+
+  if (total === 0) { box.classList.remove('show'); return; }
+  box.classList.add('show');
+
+  if (pct === 100) {
+    title.textContent = '🎉 Parabéns! Sua empresa está em conformidade.';
+    text.textContent = 'Você marcou todos os itens. Mantenha os registros atualizados e repita a capacitação periodicamente. Quer aprofundar o conhecimento da sua equipe?';
+  } else if (pct >= 67) {
+    title.textContent = `✅ Bom progresso — ${pct}% em conformidade.`;
+    text.textContent = `Você já avançou bastante, mas ainda há itens pendentes — especialmente em capacitação e documentação. O curso da Orbe Educação pode ajudar a fechar essas lacunas rapidamente.`;
+  } else if (pct >= 34) {
+    title.textContent = `⚠️ Atenção — ${pct}% em conformidade.`;
+    text.textContent = `Sua empresa ainda tem pontos críticos em aberto. A NR-01 está em vigor e fiscalizações estão acontecendo. Regularize sua situação com o apoio da Orbe Educação.`;
+  } else {
+    title.textContent = `🚨 Risco alto — apenas ${pct}% em conformidade.`;
+    text.textContent = `Sua empresa está exposta a autuações do Ministério do Trabalho e passivos trabalhistas. Agende uma conversa com a Orbe Educação para resolver isso com rapidez e segurança.`;
+  }
+}
+</script>
+</body>
+</html>
