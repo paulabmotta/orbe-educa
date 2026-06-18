@@ -315,9 +315,9 @@
       <div class="hero-card-float card-2 fade-up" style="transition-delay:0.35s">
         <div class="float-label">Soluções</div>
         <div style="display:flex;flex-direction:column;gap:0.35rem;margin-top:0.3rem">
-          <span style="font-size:0.78rem;color:var(--ink)">→ Cursos corporativos</span>
-          <span style="font-size:0.78rem;color:var(--ink)">→ Experiências digitais</span>
-          <span style="font-size:0.78rem;color:var(--ink)">→ Design instrucional</span>
+          <span style="font-size:0.78rem;color:var(--ink)">Cursos corporativos</span>
+          <span style="font-size:0.78rem;color:var(--ink)">Experiências digitais</span>
+          <span style="font-size:0.78rem;color:var(--ink)">Design instrucional</span>
         </div>
       </div>
     </div>
@@ -460,10 +460,10 @@
           <div style="padding:1.1rem;background:rgba(255,255,255,0.07);border-radius:12px;border:1px solid rgba(255,255,255,0.1)">
             <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.4);margin-bottom:0.5rem">Como atuamos</div>
             <div style="display:flex;flex-direction:column;gap:0.45rem">
-              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.825rem;color:rgba(255,255,255,0.7)"><span style="color:var(--accent);font-weight:700">→</span> Cursos e programas corporativos</div>
-              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.825rem;color:rgba(255,255,255,0.7)"><span style="color:var(--accent);font-weight:700">→</span> Experiências digitais de aprendizagem</div>
-              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.825rem;color:rgba(255,255,255,0.7)"><span style="color:var(--accent);font-weight:700">→</span> Consultoria em L&D e design instrucional</div>
-              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.825rem;color:rgba(255,255,255,0.7)"><span style="color:var(--accent);font-weight:700">→</span> Desenvolvimento de pessoas e equipes</div>
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.825rem;color:rgba(255,255,255,0.7)">Cursos e programas corporativos</div>
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.825rem;color:rgba(255,255,255,0.7)">Experiências digitais de aprendizagem</div>
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.825rem;color:rgba(255,255,255,0.7)">Consultoria em L&D e design instrucional</div>
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.825rem;color:rgba(255,255,255,0.7)">Desenvolvimento de pessoas e equipes</div>
             </div>
           </div>
         </div>
@@ -478,11 +478,12 @@
     <p class="section-eyebrow" style="color:var(--accent)">Vamos conversar</p>
     <h2>Qual é o desafio de<br>aprendizagem da sua empresa?</h2>
     <p class="section-desc">Conta pra gente. Vamos entender o seu contexto e apresentar uma proposta que faça sentido para o momento da sua organização.</p>
-    <div class="cta-form">
-      <input type="email" class="cta-input" placeholder="seu@empresa.com.br">
-      <button class="btn-cta">Quero conversar</button>
-    </div>
-    <p class="cta-note">Sem spam. Retorno em até 1 dia útil.</p>
+    <form class="cta-form" id="contactForm" action="https://formspree.io/f/xvznjqyy" method="POST">
+      <input type="hidden" name="origem" value="Formulário de contato - rodapé">
+      <input type="email" name="email" class="cta-input" placeholder="seu@empresa.com.br" required>
+      <button type="submit" class="btn-cta">Quero conversar</button>
+    </form>
+    <p class="cta-note" id="contactNote">Sem spam. Retorno em até 1 dia útil.</p>
     <div class="cta-contacts">
       <a href="mailto:orbeeducacao@gmail.com">✉ orbeeducacao@gmail.com</a>
       <a href="https://wa.me/5527996107881" target="_blank">✆ +55 27 99610-7881</a>
@@ -513,7 +514,7 @@
         <div class="popup-item">Ambiente e cultura organizacional</div>
       </div>
       <div class="popup-actions">
-        <a href="./checklist_nr01.html" class="popup-btn-primary">Fazer o checklist grátis →</a>
+        <a href="./checklist_nr01.html" class="popup-btn-primary">Fazer o checklist grátis</a>
         <button class="popup-btn-skip" id="popupSkip">Agora não, obrigado</button>
       </div>
     </div>
@@ -538,6 +539,53 @@
     link.addEventListener('click', () => {
       hamburger.classList.remove('open');
       mobileMenu.classList.remove('open');
+    });
+  });
+
+  // ── FORMULÁRIO DE CONTATO (Formspree) ──
+  (function() {
+    var form = document.getElementById('contactForm');
+    var note = document.getElementById('contactNote');
+    if (!form) return;
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var btn = form.querySelector('button[type="submit"]');
+      var originalText = btn.textContent;
+      btn.textContent = 'Enviando...';
+      btn.disabled = true;
+
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).then(function(response) {
+        if (response.ok) {
+          note.textContent = 'Mensagem enviada! Retornaremos em até 1 dia útil.';
+          note.style.color = '#8fd4ae';
+          form.reset();
+        } else {
+          note.textContent = 'Algo deu errado. Tente novamente ou use o WhatsApp abaixo.';
+          note.style.color = '#f0a090';
+        }
+      }).catch(function() {
+        note.textContent = 'Algo deu errado. Tente novamente ou use o WhatsApp abaixo.';
+        note.style.color = '#f0a090';
+      }).finally(function() {
+        btn.textContent = originalText;
+        btn.disabled = false;
+      });
+    });
+  })();
+
+  // ── BOTÕES "SOLICITAR PROPOSTA" / "VAMOS CONVERSAR" ──
+  // Ao clicar, rolam até o formulário de contato e focam no campo de e-mail
+  document.querySelectorAll('a[href="#contato"]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      setTimeout(function() {
+        var emailField = document.querySelector('#contactForm input[name="email"]');
+        if (emailField) emailField.focus();
+      }, 600);
     });
   });
 
